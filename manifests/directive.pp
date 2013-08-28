@@ -1,3 +1,5 @@
+#directive.pp
+
 define sudo::directive (
   $ensure  = present,
   $content = '',
@@ -7,9 +9,7 @@ define sudo::directive (
   # sudo skipping file names that contain a "."
   $dname = regsubst($name, '\.', '-', 'G')
 
-  if versioncmp($::sudoversion,'1.7.2') >= 0 {
-
-    file {"/etc/sudoers.d/${dname}":
+  file {"/etc/sudoers.d/${dname}":
       ensure  => $ensure,
       owner   => root,
       group   => root,
@@ -27,12 +27,6 @@ define sudo::directive (
         default   => undef,
       },
       require => Package['sudo'],
-    }
-
-  } else {
-
-    fail 'sudo fragments via #includedir is only available since version 1.7.2!'
-
   }
 
   exec {"sudo-syntax-check for file ${dname}":
