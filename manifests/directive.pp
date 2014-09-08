@@ -16,7 +16,7 @@ define sudo::directive (
       mode    => '0440',
       content => $content ? {
         ''      => undef,
-        default => $content,
+        default => "#puppet\n${content}\n",
       },
       source  => $source ? {
         ''      => undef,
